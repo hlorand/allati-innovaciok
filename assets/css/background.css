@@ -1,0 +1,734 @@
+/**
+ * Állati innovációk – animált természetes háttér.
+ *
+ * Ez tudatosan elkülönül a main.css-től:
+ * - a body papírszerű háttérfelülete
+ * - élesebb, stilizált felhők
+ * - absztrakt repülő pontok
+ * - levélformájú, több rétegben lengő fű
+ *
+ * Nincs JavaScript és nincs külső kép.
+ */
+
+
+/**
+ * A JS ezzel az elemmel szúrja be a dekorációt a body elejére.
+ * A 0-s rétegen marad; a tényleges oldalstruktúra z-index: 2.
+ */
+.nature-background {
+    position: fixed;
+    z-index: 0;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/**
+ * Égbolt-papír háttér.
+ *
+ * Felül: nagyon enyhe, kimosott pasztell égkék.
+ * Középen: szinte észrevétlen átmenet.
+ * Alul: a megszokott meleg vajpapír, amely a dombokhoz és fűhöz illik.
+ */
+body.site-background {
+    position: relative;
+    min-height: 100vh;
+    overflow-x: clip;
+    isolation: isolate;
+    background:
+        /* Nagy, alig látható „fény” a felhők mögött. */
+        radial-gradient(
+            ellipse 70% 36% at 50% 4%,
+            rgba(255, 255, 250, 0.42) 0%,
+            rgba(255, 255, 250, 0) 72%
+        ),
+
+        /* Bal felső, hidegebb levegő-fény. */
+        radial-gradient(
+            circle at 12% 16%,
+            rgba(235, 246, 247, 0.34) 0%,
+            rgba(235, 246, 247, 0) 27rem
+        ),
+
+        /* Jobb alsó, meleg zöldes visszfény a tájhoz. */
+        radial-gradient(
+            circle at 87% 67%,
+            rgba(184, 202, 153, 0.18) 0%,
+            rgba(184, 202, 153, 0) 31rem
+        ),
+
+        /* A függőleges égbolt -> vajpapír átmenet. */
+        linear-gradient(
+            to bottom,
+            #dcecef 0%,
+            #e5eff0 18%,
+            #edf0df 38%,
+            #f0e5c9 56%,
+            #eadcba 100%
+        );
+
+    background-attachment: fixed;
+}
+
+/**
+ * Az egész dekorációs háttérréteg.
+ *
+ * fixed: görgetéskor is a viewport része marad.
+ * pointer-events: soha nem akadályoz kattintást.
+ */
+.nature-background {
+    position: fixed;
+    z-index: 0;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+/**
+ * Valódi, SVG-alapú papírgrain.
+ *
+ * Az feTurbulence textúrája sokkal organikusabb, mint az ismétlődő
+ * CSS pontok. Nagyon alacsony opacityvel működik, ezért nem „piszkos”.
+ */
+.nature-background__grain {
+    position: absolute;
+    inset: 0;
+    opacity: 0.15;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)' opacity='.55'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+}
+
+/*Erősebb grain ha kell
+
+
+.nature-background__grain {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    opacity: 0.34;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    background-image:
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 220 220' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper-noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.62' numOctaves='5' seed='19' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper-noise)' opacity='.92'/%3E%3C/svg%3E"),
+        repeating-linear-gradient(
+            102deg,
+            transparent 0 5px,
+            rgba(105, 84, 49, 0.11) 5.5px,
+            transparent 6px 12px
+        ),
+        repeating-linear-gradient(
+            12deg,
+            rgba(255, 255, 255, 0.19) 0 1px,
+            transparent 1px 8px
+        );
+    background-size:
+        220px 220px,
+        37px 37px,
+        29px 29px;
+}
+
+*/
+
+/* ================================================================
+   FELHŐK
+   ================================================================ */
+
+/**
+ * A felhők a mintafájlhoz hasonlóan valódi elemekből épülnek fel:
+ * egy hosszú „alaptest” és három körív/pamacs.
+ *
+ * Nincs blur. A kontúr tiszta, de a színe áttetsző és finom.
+ */
+.nature-background__clouds {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 17rem;
+    overflow: hidden;
+}
+
+.nature-cloud {
+    position: absolute;
+    width: 17rem;
+    height: 4.5rem;
+    border: 1px solid rgba(93, 117, 84, 0.16);
+    border-radius: 999px;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 254, 244, 0.9) 0%,
+        rgba(248, 243, 220, 0.64) 100%
+    );
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.92),
+        0 0.7rem 1.5rem rgba(101, 93, 62, 0.07);
+    will-change: transform;
+}
+
+/* A felhőpamacsok. */
+.nature-cloud::before,
+.nature-cloud::after,
+.nature-cloud span {
+    position: absolute;
+    bottom: 1.35rem;
+    display: block;
+    border: 1px solid rgba(93, 117, 84, 0.13);
+    border-radius: 50%;
+    background: inherit;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.74);
+    content: "";
+}
+
+/* Bal oldali magas pamacs. */
+.nature-cloud::before {
+    left: 2.3rem;
+    width: 5.8rem;
+    height: 5.8rem;
+}
+
+/* Jobb oldali nagy pamacs. */
+.nature-cloud::after {
+    right: 2.2rem;
+    width: 6.8rem;
+    height: 6.8rem;
+}
+
+/* Középső pamacs. */
+.nature-cloud span:nth-child(1) {
+    bottom: 2.2rem;
+    left: 7.1rem;
+    width: 5.1rem;
+    height: 5.1rem;
+}
+
+/* Kis, előtérben lévő pamacs. */
+.nature-cloud span:nth-child(2) {
+    bottom: 1.1rem;
+    left: 11.6rem;
+    width: 3.7rem;
+    height: 3.7rem;
+}
+
+/* A harmadik span kizárólag kis fényfolt. */
+.nature-cloud span:nth-child(3) {
+    bottom: 0.85rem;
+    left: 1.05rem;
+    width: 2.7rem;
+    height: 2.7rem;
+    opacity: 0.72;
+}
+
+/**
+ * Hat nagyon lassú, több magassági szinten sodródó felhő.
+ *
+ * A lassabb ciklus az animation-duration hosszabb értékéből jön:
+ * minél több másodperc egy ciklus, annál finomabb a mozgás.
+ */
+.nature-cloud--one {
+    top: 2.5rem;
+    left: -22rem;
+    transform: scale(0.76);
+    opacity: 0.74;
+    animation: nature-cloud-pass-one 188s linear infinite;
+}
+
+.nature-cloud--two {
+    top: 8.8rem;
+    left: -25rem;
+    transform: scale(1.08);
+    opacity: 0.59;
+    animation: nature-cloud-pass-two 262s linear infinite -96s;
+}
+
+.nature-cloud--three {
+    top: 4.2rem;
+    left: -18rem;
+    transform: scale(0.48);
+    opacity: 0.54;
+    animation: nature-cloud-pass-three 164s linear infinite -61s;
+}
+
+.nature-cloud--four {
+    top: 14.2rem;
+    left: -24rem;
+    transform: scale(0.64);
+    opacity: 0.44;
+    animation: nature-cloud-pass-one 224s linear infinite -141s;
+}
+
+.nature-cloud--five {
+    top: 18.8rem;
+    left: -27rem;
+    transform: scale(0.91);
+    opacity: 0.39;
+    animation: nature-cloud-pass-two 290s linear infinite -193s;
+}
+
+.nature-cloud--six {
+    top: 11.8rem;
+    left: -19rem;
+    transform: scale(0.42);
+    opacity: 0.46;
+    animation: nature-cloud-pass-three 176s linear infinite -88s;
+}
+
+@keyframes nature-cloud-pass-one {
+    from {
+        translate: 0 0;
+    }
+
+    to {
+        translate: calc(100vw + 29rem) 0.5rem;
+    }
+}
+
+@keyframes nature-cloud-pass-two {
+    from {
+        translate: 0 0;
+    }
+
+    to {
+        translate: calc(100vw + 32rem) -0.55rem;
+    }
+}
+
+@keyframes nature-cloud-pass-three {
+    from {
+        translate: 0 0;
+    }
+
+    to {
+        translate: calc(100vw + 24rem) 0.3rem;
+    }
+}
+
+/* ================================================================
+   LEBEGŐ, ABSZTRAKT ROVARPONTOK
+   ================================================================ */
+
+/**
+ * Muslica-/légyzóna.
+ *
+ * Csak a fűben és közvetlenül a fű felett jelennek meg:
+ * a zóna magassága a fűréteg kb. 1,5-szerese.
+ */
+.nature-background__specks {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: clamp(10.5rem, 24vh, 18rem);
+    opacity: 0.65;
+}
+
+/**
+ * Mini, stilizált légy.
+ *
+ * Maga az <i> a rövid, sötét test.
+ * A ::before és ::after a két, finoman áttetsző szárny.
+ */
+.nature-background__specks i {
+    position: absolute;
+    width: 0.64rem;
+    height: 1.04rem;
+    border-radius: 55% 55% 48% 48%;
+    background: linear-gradient(
+        to bottom,
+        rgba(48, 58, 47, 0.88) 0%,
+        rgba(31, 42, 34, 0.76) 72%,
+        rgba(95, 104, 82, 0.62) 100%
+    );
+    box-shadow:
+        0 0 0 0.1rem rgba(255, 248, 224, 0.16),
+        0 0.12rem 0.22rem rgba(47, 61, 42, 0.16);
+    transform-origin: center;
+    animation: nature-fly-float 8s ease-in-out infinite alternate;
+}
+
+/* Bal szárny. */
+.nature-background__specks i::before,
+.nature-background__specks i::after {
+    position: absolute;
+    top: 0.16rem;
+    width: 0.92rem;
+    height: 0.56rem;
+    border: 1px solid rgba(77, 91, 76, 0.70);
+    border-radius: 80% 18% 80% 18%;
+    background: linear-gradient(
+        135deg,
+        rgba(250, 253, 245, 0.9),
+        rgba(174, 196, 179, 0.6)
+    );
+    box-shadow: inset 0 0 0.1rem rgba(255, 255, 255, 0.76);
+    content: "";
+    transform-origin: 100% 50%;
+    animation: nature-fly-wings 0.16s ease-in-out infinite alternate;
+}
+
+/* Bal oldali szárny. */
+.nature-background__specks i::before {
+    right: 0.24rem;
+    transform: rotate(-32deg);
+}
+
+/* Jobb oldali szárny. */
+.nature-background__specks i::after {
+    left: 0.24rem;
+    transform: scaleX(-1) rotate(-32deg);
+    transform-origin: 0 50%;
+    animation-direction: alternate-reverse;
+}
+
+/* A szándékosan aszimmetrikus elhelyezés sokkal természetesebb. */
+.nature-background__specks i:nth-child(1) {
+    top: 24%;
+    left: 9%;
+    animation-duration: 11s;
+}
+
+.nature-background__specks i:nth-child(2) {
+    top: 58%;
+    left: 19%;
+    animation-duration: 16s;
+    animation-delay: -6s;
+}
+
+.nature-background__specks i:nth-child(3) {
+    top: 34%;
+    left: 32%;
+    animation-duration: 14s;
+    animation-delay: -10s;
+}
+
+.nature-background__specks i:nth-child(4) {
+    top: 71%;
+    left: 42%;
+    animation-duration: 18s;
+    animation-delay: -5s;
+}
+
+.nature-background__specks i:nth-child(5) {
+    top: 43%;
+    left: 54%;
+    animation-duration: 13s;
+    animation-delay: -8s;
+}
+
+.nature-background__specks i:nth-child(6) {
+    top: 77%;
+    left: 62%;
+    animation-duration: 16s;
+    animation-delay: -12s;
+}
+
+.nature-background__specks i:nth-child(7) {
+    top: 30%;
+    left: 72%;
+    animation-duration: 15s;
+    animation-delay: -4s;
+}
+
+.nature-background__specks i:nth-child(8) {
+    top: 62%;
+    left: 81%;
+    animation-duration: 17s;
+    animation-delay: -9s;
+}
+
+.nature-background__specks i:nth-child(9) {
+    top: 39%;
+    left: 91%;
+    animation-duration: 12s;
+    animation-delay: -3s;
+}
+
+.nature-background__specks i:nth-child(10) {
+    top: 82%;
+    left: 13%;
+    animation-duration: 17s;
+    animation-delay: -11s;
+}
+
+.nature-background__specks i:nth-child(11) {
+    top: 53%;
+    left: 67%;
+    animation-duration: 19s;
+    animation-delay: -7s;
+}
+
+.nature-background__specks i:nth-child(12) {
+    top: 86%;
+    left: 88%;
+    animation-duration: 14s;
+    animation-delay: -13s;
+}
+
+/**
+ * A légy rövid, kiszámíthatatlan lebegése.
+ *
+ * A mozgás a fű feletti kijelölt zónában marad.
+ */
+@keyframes nature-fly-float {
+    from {
+        transform: translate3d(-0.25rem, 0.3rem, 0) rotate(-10deg) scale(0.9);
+        opacity: 0.26;
+    }
+
+    48% {
+        transform: translate3d(0.75rem, -0.6rem, 0) rotate(8deg) scale(1);
+        opacity: 0.48;
+    }
+
+    to {
+        transform: translate3d(1.35rem, -0.45rem, 0) rotate(-5deg) scale(0.95);
+        opacity: 0.38;
+    }
+}
+
+/**
+ * A szárnyak gyors, de kicsi csapkodása.
+ *
+ * Csak két kis pseudo-elem animálódik minden légyen,
+ * ezért továbbra is könnyű marad.
+ */
+@keyframes nature-fly-wings {
+    from {
+        opacity: 1;
+        transform: rotate(-42deg) scaleX(0.82) scaleY(0.72);
+    }
+
+    to {
+        opacity: 1;
+        transform: rotate(-16deg) scaleX(1.06) scaleY(1);
+    }
+}
+
+/* ================================================================
+   FŰ
+   ================================================================ */
+
+/**
+ * A fű két árnyalata és a két magasság sokkal organikusabb,
+ * mint az egyszerű, döntött egypixeles vonalak.
+ */
+.nature-background__grass {
+    position: absolute;
+    right: 0;
+    bottom: -0.75rem;
+    left: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    width: 100vw;
+    height: clamp(7rem, 16vh, 12rem);
+    overflow: visible;
+    padding: 0;
+    background: linear-gradient(
+        to top,
+        rgba(76, 111, 64, 0.25) 0%,
+        rgba(76, 111, 64, 0.1) 32%,
+        transparent 100%
+    );
+}
+
+/**
+ * Egy fűszál:
+ * - alul szélesebb
+ * - felül vékonyabb
+ * - nem sima vonal, hanem levélformájú, ívelt penge
+ */
+.nature-grass-blade {
+    width: clamp(0.45rem, 0.65vw, 0.82rem);
+    height: var(--blade-height);
+    flex: 0 0 auto;
+    margin: 0 -0.18rem;
+    border-radius: 100% 0 100% 0;
+    opacity: var(--blade-opacity);
+    transform: rotate(var(--blade-angle));
+    transform-origin: bottom center;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(34, 75, 40, 0.9) 0%,
+            rgba(91, 139, 74, 0.87) 48%,
+            rgba(188, 207, 133, 0.72) 100%
+        );
+    box-shadow:
+        inset 0.12rem 0 0 rgba(239, 234, 181, 0.23),
+        0 0.3rem 0.8rem rgba(49, 91, 62, 0.08);
+    will-change: transform;
+    animation: nature-grass-sway var(--blade-speed) ease-in-out infinite alternate;
+    animation-delay: var(--blade-delay);
+}
+
+/* Finom levélér: ettől kevésbé „CSS-vonal” a fű. */
+.nature-grass-blade::after {
+    position: absolute;
+    top: 8%;
+    bottom: 12%;
+    left: 43%;
+    width: 1px;
+    border-radius: 999px;
+    background: rgba(239, 240, 187, 0.38);
+    content: "";
+}
+
+
+@keyframes nature-grass-sway {
+    from {
+        transform: rotate(calc(var(--blade-angle) - 4deg))
+            skewX(-1deg)
+            scaleY(0.98);
+    }
+
+    to {
+        transform: rotate(calc(var(--blade-angle) + 4deg))
+            skewX(1deg)
+            scaleY(1.02);
+    }
+}
+
+/**
+ * Három egymásba futó, távoli domb.
+ *
+ * A dombok felső íve jól látszik, de az alsó részüket egy függőleges
+ * mask fokozatosan átlátszóvá teszi, így nem záródnak kemény vonallal.
+ *
+ * A rétegek sorrendje:
+ * - bal: nagy, halvány háttérdomb
+ * - közép: kisebb, mélyebb zöld domb
+ * - jobb: nagyobb, melegebb árnyalatú előtérdomb
+ */
+.nature-background__grass::before {
+    position: absolute;
+    z-index: -1;
+    top: -17rem;
+    right: -12vw;
+    bottom: 0;
+    left: -12vw;
+    height: min(35vh, 25rem);
+    content: "";
+    opacity: 0.3;
+
+    /**
+     * A három eltérő ellipszis összeér és részben egymásra kerül.
+     * Minden dombon belül van saját, többállomásos színátmenet,
+     * ezért nem egyszínű felületként jelenik meg.
+     */
+    background:
+        radial-gradient(
+            ellipse 50rem 19rem at 13% 100%,
+            rgba(214, 222, 166, 0.00) 0%,
+            rgba(173, 193, 132, 0.38) 28%,
+            rgba(122, 158, 97, 0.54) 56%,
+            rgba(82, 123, 76, 0.58) 74%,
+            transparent 75%
+        ),
+        radial-gradient(
+            ellipse 33rem 16rem at 46% 100%,
+            rgba(223, 229, 177, 0.00) 0%,
+            rgba(181, 202, 132, 0.42) 26%,
+            rgba(105, 146, 83, 0.58) 57%,
+            rgba(63, 108, 65, 0.62) 75%,
+            transparent 76%
+        ),
+        radial-gradient(
+            ellipse 57rem 21rem at 89% 100%,
+            rgba(229, 228, 172, 0.00) 0%,
+            rgba(192, 202, 127, 0.38) 30%,
+            rgba(127, 161, 86, 0.52) 56%,
+            rgba(78, 124, 70, 0.62) 76%,
+            transparent 77%
+        ),
+        linear-gradient(
+            to top,
+            rgba(58, 101, 62, 0.28) 0%,
+            rgba(100, 142, 83, 0.12) 47%,
+            transparent 100%
+        );
+
+    /**
+     * A domb sziluettjét fentről teljesen meghagyjuk, majd lefelé
+     * fokozatosan elhalványítjuk. A fű takarja az alsó részt.
+     */
+    -webkit-mask-image: linear-gradient(
+        to bottom,
+        #000 0%,
+        #000 40%,
+        rgba(0, 0, 0, 0.74) 61%,
+        rgba(0, 0, 0, 0.30) 81%,
+        transparent 100%
+    );
+    mask-image: linear-gradient(
+        to bottom,
+        #000 0%,
+        #000 40%,
+        rgba(0, 0, 0, 0.74) 61%,
+        rgba(0, 0, 0, 0.30) 81%,
+        transparent 100%
+    );
+}
+
+/* ================================================================
+   RESZPONZIVITÁS ÉS AKADÁLYMENTESSÉG
+   ================================================================ */
+
+@media (max-width: 640px) {
+    .nature-background__clouds {
+        height: 12rem;
+    }
+
+    .nature-cloud--one {
+        top: 2.2rem;
+        transform: scale(0.53);
+    }
+
+    .nature-cloud--two {
+        top: 5rem;
+        transform: scale(0.7);
+    }
+
+    .nature-cloud--three,
+    .nature-background__specks {
+        display: none;
+    }
+
+    .nature-background__grass {
+        height: 6.8rem;
+    }
+
+    .nature-grass-blade {
+        width: 0.55rem;
+        margin-right: -0.3rem;
+    }
+
+    .nature-background__grain {
+        opacity: 0.1;
+    }
+}
+
+/**
+ * Végleges rétegzési szabály.
+ *
+ * A background.js a .nature-background elemet közvetlenül a body
+ * első gyerekeként szúrja be. Minden más, közvetlen body-gyerek
+ * (WordPress adminbar, header, main, footer vagy egy #page wrapper)
+ * garantáltan fölé kerül.
+ */
+body.site-background {
+    position: relative;
+    isolation: isolate;
+}
+
+/* Maga a dekoráció: a tartalom alatt. */
+body.site-background > .nature-background {
+    position: fixed;
+    z-index: 0;
+    inset: 0;
+    pointer-events: none;
+}
+
+/* A weboldal minden tényleges tartalmi gyereke: a háttér előtt. */
+body.site-background > *:not(.nature-background) {
+    position: relative;
+    z-index: 1;
+}

@@ -1,0 +1,1533 @@
+/**
+ * Állati innovációk – fő felület- és widgetstílusok.
+ *
+ * A teljes oldalas táj, felhők, fű, dombok és grain
+ * az assets/css/background.css fájlban maradnak.
+ *
+ * Ez a fájl a központi tartalmi papírlapot, a widgeteket,
+ * a kártyákat és az űrlapelemeket formázza.
+ */
+
+
+/* ================================================================
+   VÁLTOZÓK
+   ================================================================ */
+
+:root {
+    /* Áttetsző, fehéres „üvegpapír” felületek. */
+    --surface-glass: rgba(255, 255, 255, 0.4);
+    --surface-glass-strong: rgba(255, 255, 255, 0.58);
+
+    /* A felületek vékony, világos határvonala. */
+    --surface-border: rgba(255, 255, 255, 0.72);
+    --surface-border-soft: rgba(112, 133, 96, 0.16);
+
+    /* Szövegszínek. */
+    --ink: #253126;
+    --forest: #315b3e;
+    --moss: #6f8f72;
+    --terracotta: #d9775c;
+    --ochre: #e9b949;
+
+    /* Alap, mindig jelen lévő lágy árnyék. */
+    --shadow-soft:
+        0 0.3rem 0.9rem rgba(58, 77, 50, 0.06),
+        0 1.15rem 2.8rem rgba(102, 78, 40, 0.07);
+
+    /* Hover állapotban erősebb, de továbbra is természetes árnyék. */
+    --shadow-raised:
+        0 0.5rem 1.25rem rgba(53, 77, 49, 0.11),
+        0 1.55rem 3.8rem rgba(102, 78, 40, 0.13);
+
+    /* Kis elemekhez való árnyék. */
+    --shadow-control:
+        0 0.16rem 0.45rem rgba(58, 77, 50, 0.07),
+        inset 0 1px 0 rgba(255, 255, 255, 0.58);
+}
+
+
+/* ================================================================
+   KÖZPONTI OLDALKERET
+   ================================================================ */
+
+/**
+ * Ez pontosan a header.php-ban lévő fő oldalburkoló:
+ *
+ * <div class="mx-auto min-h-screen max-w-7xl px-4 sm:px-6 lg:px-8">
+ *
+ * A teljes központi oldal kapja meg a 40%-os fehér hátteret,
+ * nem a :root és nem minden egyes belső div.
+ */
+body.site-background > .mx-auto.min-h-screen.max-w-7xl {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+
+    background: var(--surface-glass);
+    border-right: 1px solid var(--surface-border);
+    border-left: 1px solid var(--surface-border);
+
+    box-shadow:
+        0 0 1.3rem rgba(255, 255, 255, 0.14),
+        0 1.5rem 4.5rem rgba(78, 87, 62, 0.11);
+}
+
+
+/* ================================================================
+   ÁLTALÁNOS KÁRTYA- ÉS WIDGETFELÜLETEK
+   ================================================================ */
+
+/**
+ * Ezek valódi, önálló tartalmi egységek.
+ *
+ * Szándékosan nincs itt div, section, p, ul vagy li selector,
+ * hogy ne legyen minden belső layoutcsoport külön doboz.
+ */
+.widget,
+.wp-block-group.is-style-card,
+.wp-block-query .wp-block-post,
+.entry-card,
+.card,
+.wp-block-search,
+.comment-respond,
+.comment-body {
+    background: var(--surface-glass);
+    border: 1px solid var(--surface-border);
+    box-shadow: var(--shadow-soft);
+
+    transition:
+        transform 220ms ease,
+        box-shadow 220ms ease,
+        background-color 220ms ease,
+        border-color 220ms ease;
+}
+
+/**
+ * A kattintható vagy kiemelhető felületek hover állapota.
+ *
+ * A widget hover opcionális vizuális visszajelzés: maga a widget
+ * nem feltétlenül kattintható, de a felület finoman „megemelkedik”.
+ */
+.widget:hover,
+.wp-block-query .wp-block-post:hover,
+.entry-card:hover,
+.card:hover {
+    transform: translateY(-0.18rem);
+    background: var(--surface-glass-strong);
+    border-color: rgba(255, 255, 255, 0.92);
+    box-shadow: var(--shadow-raised);
+}
+
+/* Billentyűzetes fókusz a kártya-linkeknél. */
+a.card:focus-visible,
+a.entry-card:focus-visible {
+    outline: 3px solid rgba(233, 185, 73, 0.62);
+    outline-offset: 3px;
+}
+
+
+/* ================================================================
+   GOMBOK ÉS ŰRLAPMEZŐK
+   ================================================================ */
+
+button,
+input,
+textarea,
+select,
+.wp-element-button,
+.wp-block-button__link {
+    box-shadow: var(--shadow-control);
+}
+
+button,
+input,
+textarea,
+select {
+    border-color: rgba(112, 143, 114, 0.34);
+}
+
+button:hover,
+.wp-element-button:hover,
+.wp-block-button__link:hover {
+    box-shadow:
+        0 0.35rem 0.9rem rgba(58, 77, 50, 0.13),
+        inset 0 1px 0 rgba(255, 255, 255, 0.62);
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+.wp-element-button:focus-visible,
+.wp-block-button__link:focus-visible {
+    outline: 3px solid rgba(233, 185, 73, 0.5);
+    outline-offset: 2px;
+}
+
+
+/* ================================================================
+   WIDGETCÍMEK
+   ================================================================ */
+
+.widget .wp-block-heading {
+    margin: 0 0 1rem;
+    color: var(--forest);
+    font-family: Fraunces, serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+/* ================================================================
+   LEGUTÓBBI BEJEGYZÉSEK – kis thumbnail a cím mellett
+   ================================================================ */
+
+.widget .wp-block-latest-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.widget .wp-block-latest-posts li {
+    display: grid;
+    grid-template-columns: 3.4rem minmax(0, 1fr);
+    align-items: center;
+    column-gap: 0.75rem;
+    margin: 0;
+    padding: 0.7rem 0.2rem;
+    border-bottom: 1px solid rgba(168, 191, 163, 0.55);
+}
+
+.widget .wp-block-latest-posts li:last-child {
+    border-bottom: 0;
+}
+
+/* A Gutenberg által kiírt kiemelt kép konténere */
+.widget .wp-block-latest-posts__featured-image {
+    
+    grid-column: 1;
+    grid-row: 1;
+    width: 3.4rem;
+    height: 3.4rem;
+    margin: 0 !important;
+    overflow: hidden;
+    border: 1px solid rgba(104, 129, 93, 0.22);
+    border-radius: 0.8rem;
+    background: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0.2rem 0.55rem rgba(58, 77, 50, 0.08);
+}
+
+/* Ha be van kapcsolva, hogy a kép is link legyen */
+.widget .wp-block-latest-posts__featured-image a {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* A kép mindig kitölti a kis négyzetet, nem torzul */
+.widget .wp-block-latest-posts__featured-image img {
+    scale: 1.5;
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    object-fit: cover;
+    transition: transform 220ms ease;
+}
+
+.widget .wp-block-latest-posts li:hover
+.wp-block-latest-posts__featured-image img {
+    transform: scale(1.06);
+}
+
+.widget .wp-block-latest-posts__post-title {
+    grid-column: 2;
+    grid-row: 1;
+    display: block;
+    min-width: 0;
+    padding: 0.15rem 0;
+    color: var(--ink);
+    font-size: 0.96rem;
+    font-weight: 600;
+    line-height: 1.35;
+    text-decoration: none;
+    transition:
+        color 180ms ease,
+        transform 180ms ease;
+}
+
+.widget .wp-block-latest-posts__post-title:hover,
+.widget .wp-block-latest-posts__post-title:focus-visible {
+    color: var(--terracotta);
+    outline: none;
+    transform: translateX(0.15rem);
+}
+
+.widget .wp-block-latest-posts__post-title:focus-visible {
+    box-shadow: 0 0 0 3px rgba(233, 185, 73, 0.4);
+}
+
+/* Kép nélküli bejegyzés: a cím maradjon teljes szélességű */
+.widget .wp-block-latest-posts li:not(:has(.wp-block-latest-posts__featured-image)) {
+    display: block;
+}
+
+.widget .wp-block-latest-posts li:not(:has(.wp-block-latest-posts__featured-image))
+.wp-block-latest-posts__post-title {
+    padding: 0.15rem 0;
+}
+
+/* ================================================================
+   KATEGÓRIÁK ÉS ARCHÍVUMOK
+   ================================================================ */
+
+.widget .wp-block-group__inner-container {
+    display: flow-root;
+}
+
+.widget .wp-block-categories,
+.widget .wp-block-archives {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.widget .wp-block-categories li,
+.widget .wp-block-archives li {
+    margin: 0;
+    border-bottom: 1px solid rgba(168, 191, 163, 0.55);
+}
+
+.widget .wp-block-categories li:last-child,
+.widget .wp-block-archives li:last-child {
+    border-bottom: 0;
+}
+
+.widget .wp-block-categories a,
+.widget .wp-block-archives a {
+    display: block;
+    padding: 0.8rem 0.2rem;
+    color: var(--ink);
+    font-size: 0.98rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+
+    transition:
+        color 180ms ease,
+        padding-left 180ms ease,
+        background-color 180ms ease;
+}
+
+.widget .wp-block-categories a:hover,
+.widget .wp-block-categories a:focus-visible,
+.widget .wp-block-archives a:hover,
+.widget .wp-block-archives a:focus-visible {
+    padding-left: 0.45rem;
+    color: var(--terracotta);
+    background-color: rgba(168, 191, 163, 0.16);
+    outline: none;
+}
+
+.widget .wp-block-categories a:focus-visible,
+.widget .wp-block-archives a:focus-visible {
+    box-shadow: 0 0 0 3px rgba(233, 185, 73, 0.4);
+}
+
+.widget .wp-block-categories ul {
+    margin: 0 0 0.25rem 1rem;
+    padding: 0;
+    list-style: none;
+}
+
+
+/* ================================================================
+   ARCHÍVUM LENYÍLÓ
+   ================================================================ */
+
+.widget .wp-block-archives-dropdown select {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    color: var(--ink);
+    background-color: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(168, 191, 163, 0.8);
+    border-radius: 0.85rem;
+    outline: none;
+}
+
+.widget .wp-block-archives-dropdown select:focus {
+    border-color: var(--moss);
+    box-shadow: 0 0 0 3px rgba(233, 185, 73, 0.35);
+}
+
+
+/* ================================================================
+   LEGUTÓBBI HOZZÁSZÓLÁSOK
+   ================================================================ */
+
+.widget .wp-block-latest-comments {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.widget .wp-block-latest-comments__comment {
+    margin: 0;
+    padding: 0.9rem 0.15rem;
+    border-bottom: 1px solid rgba(168, 191, 163, 0.55);
+}
+
+.widget .wp-block-latest-comments__comment:last-child {
+    border-bottom: 0;
+}
+
+.widget .wp-block-latest-comments__comment-meta {
+    color: var(--forest);
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.45;
+}
+
+.widget .wp-block-latest-comments__comment-meta a {
+    color: var(--forest);
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 180ms ease;
+}
+
+.widget .wp-block-latest-comments__comment-meta a:hover,
+.widget .wp-block-latest-comments__comment-meta a:focus-visible {
+    color: var(--terracotta);
+    text-decoration: underline;
+    outline: none;
+}
+
+.widget .wp-block-latest-comments__comment-date {
+    display: block;
+    margin-top: 0.2rem;
+    color: #7a5c3e;
+    font-size: 0.75rem;
+}
+
+.widget .wp-block-latest-comments__comment-excerpt {
+    margin-top: 0.45rem;
+    color: var(--ink);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.widget .wp-block-latest-comments__comment-excerpt p {
+    margin: 0;
+}
+
+.widget .wp-block-latest-comments__comment-avatar,
+.widget .wp-block-latest-comments .avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-right: 0.75rem;
+    border: 2px solid rgba(168, 191, 163, 0.7);
+    border-radius: 9999px;
+}
+
+
+/* ================================================================
+   MOBIL
+   ================================================================ */
+
+@media (max-width: 640px) {
+    /**
+     * Mobilon a viewport teljes szélessége értékesebb,
+     * mint a két finom függőleges papírkeret.
+     */
+    body.site-background > .mx-auto.min-h-screen.max-w-7xl {
+        border-right: 0;
+        border-left: 0;
+        box-shadow: none;
+    }
+
+    .widget:hover,
+    .wp-block-query .wp-block-post:hover,
+    .entry-card:hover,
+    .card:hover {
+        transform: none;
+    }
+}
+
+/* ================================================================
+   FEJLÉC – „ÜVEGPAPÍR” BRAND ÉS NAVIGÁCIÓ
+   ================================================================ */
+
+/**
+ * A fejléc körüli tág tér hagyja érvényesülni a felhőket.
+ * Nincs tömör, teljes képernyős színcsík.
+ */
+.site-header {
+    position: relative;
+    z-index: 2;
+    padding: clamp(1.25rem, 3vw, 2.8rem) 0 1.15rem;
+}
+
+/**
+ * A központi brand-felület.
+ *
+ * A finom, részben áttetsző háttér egyértelmű keretet ad,
+ * de látszani engedi az égboltot és a papírtextúrát.
+ */
+.site-header__inner {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(1.15rem, 2.8vw, 2.25rem);
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    border-radius: 1.75rem;
+    background:
+        linear-gradient(
+            112deg,
+            rgba(255, 255, 255, 0.58) 0%,
+            rgba(255, 255, 255, 0.3) 58%,
+            rgba(237, 242, 220, 0.38) 100%
+        );
+    box-shadow:
+        0 0.45rem 1.25rem rgba(52, 74, 49, 0.08),
+        0 1.8rem 4.2rem rgba(95, 72, 37, 0.11);
+}
+
+/* Dekoratív, nagyon halk napfényfolt a brand-kártya jobb oldalán. */
+.site-header__inner::before {
+    position: absolute;
+    top: -7rem;
+    right: -4rem;
+    width: 18rem;
+    height: 18rem;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle,
+        rgba(233, 185, 73, 0.24) 0%,
+        rgba(233, 185, 73, 0) 69%
+    );
+    content: "";
+    pointer-events: none;
+}
+
+/* A belső tartalom a dekoratív fényfolt elé kerül. */
+.site-brand,
+.site-navigation {
+    position: relative;
+    z-index: 1;
+}
+
+/**
+ * Logo + tipográfia: egységes, nagyvonalú brandblokk.
+ */
+.site-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(0.9rem, 2vw, 1.5rem);
+    max-width: 100%;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* A logo saját halvány „bélyegzőfelületet” kap. */
+.site-brand__logo-wrap {
+    zoom: 1.4;
+    display: grid;
+    flex: 0 0 auto;
+    width: clamp(4.25rem, 8vw, 5.5rem);
+    aspect-ratio: 1;
+    place-items: center;
+    overflow: hidden;
+    border: 1px solid rgba(93, 125, 91, 0.22);
+    border-radius: 1.45rem;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.82),
+            rgba(223, 235, 202, 0.52)
+        );
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.82),
+        0 0.45rem 1.1rem rgba(64, 90, 55, 0.12);
+}
+
+/* Maga a feltöltött logófájl. */
+.site-brand__logo {
+    display: block;
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+    filter: drop-shadow(0 0.2rem 0.25rem rgba(48, 74, 45, 0.14));
+}
+
+/* A címek függőleges rendszere. */
+.site-brand__copy {
+    display: grid;
+    min-width: 0;
+    gap: 0.18rem;
+}
+
+/* Kicsi, szerkesztőségi címke. */
+.site-brand__eyebrow {
+    color: #5f795e;
+    font-size: clamp(0.62rem, 1.2vw, 0.72rem);
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    line-height: 1.2;
+    text-transform: uppercase;
+}
+
+/* Az oldal neve: elegáns, de nem túlzó. */
+.site-brand__title {
+    color: #254530;
+    font-family: Fraunces, serif;
+    font-size: clamp(1.65rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 0.98;
+}
+
+/* Alcím: nyugodt, jól olvasható meta-információ. */
+.site-brand__subtitle {
+    color: #526550;
+    font-size: clamp(0.78rem, 1.5vw, 0.95rem);
+    font-weight: 500;
+    line-height: 1.45;
+}
+
+
+/* ================================================================
+   NAVIGÁCIÓS GOMBSOR
+   ================================================================ */
+
+/**
+ * A navigáció külön, teljes szélességű sor.
+ * Felső szegély választja el a brandtől, így nagyvonalú marad.
+ */
+.site-navigation {
+    width: 100%;
+    margin-top: clamp(1.1rem, 2.5vw, 1.75rem);
+    padding-top: clamp(0.9rem, 1.7vw, 1.2rem);
+    border-top: 1px solid rgba(104, 129, 93, 0.18);
+}
+
+/* WordPress wp_nav_menu által generált ul. */
+.site-navigation__menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Minden menüpont olyan széles, amennyire a szöveg igényli. */
+.site-navigation__menu > li {
+    margin: 0;
+}
+
+/**
+ * A navigációs linkek: tapintható, áttetsző kapszulagombok.
+ *
+ * Ezek alapállapotban is kapnak finom árnyékot;
+ * hoverkor egy kicsit felemelkednek, a jelenlegi üvegpapír
+ * rendszerhez igazodva.
+ */
+.site-navigation__menu > li > a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.7rem;
+    padding: 0.66rem 1rem;
+    color: #315b3e;
+    border: 1px solid rgba(104, 137, 96, 0.21);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.36);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.64),
+        0 0.2rem 0.6rem rgba(61, 87, 55, 0.07);
+    font-size: 0.88rem;
+    font-weight: 750;
+    letter-spacing: 0.01em;
+    line-height: 1;
+    text-decoration: none;
+
+    transition:
+        transform 180ms ease,
+        color 180ms ease,
+        background-color 180ms ease,
+        border-color 180ms ease,
+        box-shadow 180ms ease;
+}
+
+.site-navigation__menu > li > a:hover,
+.site-navigation__menu > li > a:focus-visible {
+    color: #254530;
+    border-color: rgba(82, 119, 76, 0.34);
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.88),
+        0 0.45rem 1rem rgba(56, 85, 53, 0.14);
+    outline: none;
+    transform: translateY(-0.13rem);
+}
+
+/* Az aktuális oldal menüpontja legyen egyértelmű, de ne harsány. */
+.site-navigation__menu > .current-menu-item > a,
+.site-navigation__menu > .current-menu-ancestor > a {
+    color: #fffdf5;
+    border-color: #416d4b;
+    background: linear-gradient(135deg, #315b3e, #527e56);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 0.35rem 0.9rem rgba(49, 91, 62, 0.21);
+}
+
+/* Aktív menüpont hover: kevés plusz fény, nem ugrik el a stílustól. */
+.site-navigation__menu > .current-menu-item > a:hover,
+.site-navigation__menu > .current-menu-ancestor > a:hover {
+    color: #ffffff;
+    background: linear-gradient(135deg, #294f34, #416d4b);
+}
+
+/* Billentyűzetes fókusz legyen jól látható. */
+.site-navigation__menu > li > a:focus-visible {
+    outline: 3px solid rgba(233, 185, 73, 0.56);
+    outline-offset: 3px;
+}
+
+
+/* ================================================================
+   MOBIL
+   ================================================================ */
+
+@media (max-width: 640px) {
+    .site-header {
+        padding-top: 0.85rem;
+    }
+
+    .site-header__inner {
+        padding: 1rem;
+        border-radius: 1.25rem;
+    }
+
+    .site-brand {
+        align-items: flex-start;
+        gap: 0.78rem;
+    }
+
+    .site-brand__logo-wrap {
+        width: 3.75rem;
+        border-radius: 1.1rem;
+    }
+
+    .site-brand__eyebrow {
+        font-size: 0.56rem;
+        letter-spacing: 0.1em;
+    }
+
+    .site-brand__title {
+        font-size: clamp(1.4rem, 7.3vw, 2rem);
+    }
+
+    .site-brand__subtitle {
+        font-size: 0.75rem;
+    }
+
+    .site-navigation {
+        margin-top: 1rem;
+        padding-top: 0.85rem;
+    }
+
+    .site-navigation__menu {
+        gap: 0.45rem;
+    }
+
+    .site-navigation__menu > li {
+        flex: 1 1 auto;
+    }
+
+    .site-navigation__menu > li > a {
+        justify-content: center;
+        width: 100%;
+        min-height: 2.55rem;
+        padding-right: 0.72rem;
+        padding-left: 0.72rem;
+        font-size: 0.79rem;
+    }
+}
+
+/* ================================================================
+   RESZPONZÍV VIDEÓK ÉS EMBED-EK
+   ================================================================ */
+
+/**
+ * Gutenberg YouTube/Vimeo/általános embed blokkok.
+ *
+ * A blokk a rendelkezésre álló teljes szélességet használja,
+ * de megtartja a szélesvásznú, 16:9 arányt.
+ */
+.wp-block-embed,
+.wp-block-video {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* A WordPress által létrehozott belső embed-konténer. */
+.wp-block-embed__wrapper {
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 1.15rem;
+    background: rgba(37, 49, 38, 0.12);
+    box-shadow: var(--shadow-soft);
+    aspect-ratio: 16 / 9;
+}
+
+/**
+ * YouTube iframe teljesen töltse ki a reszponzív konténert.
+ *
+ * A height: 100% felülírja a YouTube által beszúrt fix,
+ * például 315px-es magasságot.
+ */
+.wp-block-embed__wrapper iframe,
+.wp-block-embed__wrapper > iframe,
+.wp-block-video video {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+    border: 0;
+}
+
+/**
+ * Kézzel, Custom HTML blokkal beszúrt YouTube iframe-ek.
+ *
+ * Csak a WordPress bejegyzéstartalmon belül célzunk,
+ * hogy ne törjön el például egy külső szolgáltatás admin iframe-je.
+ */
+.entry-content iframe[src*="youtube.com"],
+.entry-content iframe[src*="youtu.be"],
+.wp-block-post-content iframe[src*="youtube.com"],
+.wp-block-post-content iframe[src*="youtu.be"] {
+    display: block;
+    width: 100% !important;
+    max-width: 100%;
+    height: auto;
+    min-height: clamp(12rem, 48vw, 36rem);
+    border: 0;
+    border-radius: 1.15rem;
+    box-shadow: var(--shadow-soft);
+}
+
+/* ================================================================
+   CLASSIC EDITOR – RESZPONZÍV YOUTUBE OEMBED
+   ================================================================ */
+
+/**
+ * A Classic Editor által automatikusan generált YouTube iframe.
+ *
+ * A width="500" és height="281" HTML attribútumokat felülírjuk:
+ * a videó mindig a bejegyzés rendelkezésre álló szélességét tölti ki,
+ * és megtartja a 16:9 képarányt.
+ */
+.entry-content > iframe[src*="youtube.com"],
+.entry-content > iframe[src*="youtube-nocookie.com"],
+.entry-content > iframe[src*="youtu.be"],
+.post-content > iframe[src*="youtube.com"],
+.post-content > iframe[src*="youtube-nocookie.com"],
+.post-content > iframe[src*="youtu.be"],
+article iframe[src*="youtube.com"],
+article iframe[src*="youtube-nocookie.com"],
+article iframe[src*="youtu.be"] {
+    display: block;
+    width: 100% !important;
+    max-width: 100%;
+    height: auto !important;
+    min-height: 0;
+    border: 0;
+    border-radius: 1.15rem;
+    box-shadow: var(--shadow-soft);
+    aspect-ratio: 16 / 9;
+}
+/* ================================================================
+   CLASSIC EDITOR – BEJEGYZÉSKÉPEK, IGAZÍTÁSOK, KÉPALÁÍRÁSOK
+   ================================================================ */
+
+/**
+ * Hatókör:
+ * kizárólag a bejegyzés tényleges tartalma.
+ *
+ * Nem érinti a fejléc logóját, avatarokat, widgetképeket,
+ * YouTube thumbnailöket vagy admin felületi képeket.
+ */
+.entry-content,
+.post-content,
+.article-content {
+    --post-image-radius: 1.15rem;
+    --post-image-border: rgba(255, 255, 255, 0.72);
+    --post-image-surface: rgba(255, 255, 255, 0.30);
+    --post-caption-ink: #566652;
+}
+
+
+/* ================================================================
+   MINDEN TARTALMI KÉP – ALAP DESIGN
+   ================================================================ */
+
+/**
+ * Kezeli többek között:
+ * - <img class="alignnone wp-image-14">
+ * - <p><img ...></p>
+ * - <p><a href="..."><img ...></a></p>
+ * - <figure class="wp-caption"><img ...></figure>
+ * - <figure><a><img></a></figure>
+ *
+ * Az img[src] feltétel kizárja az esetleges üres/hibás image tageket.
+ */
+.entry-content img[src],
+.post-content img[src],
+.article-content img[src] {
+    box-sizing: border-box;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--post-image-border);
+    border-radius: var(--post-image-radius);
+    box-shadow: var(--shadow-soft);
+    vertical-align: middle;
+
+    transition:
+        transform 350ms ease,
+        filter 350ms ease,
+        box-shadow 350ms ease;
+}
+
+/**
+ * Ha a kép linkben van, a link legyen blokk, hogy a lekerekítés,
+ * fókusz és a kép szélessége kiszámítható maradjon.
+ */
+.entry-content a:has(> img),
+.post-content a:has(> img),
+.article-content a:has(> img) {
+    display: inline-block;
+    overflow: hidden;
+    max-width: 100%;
+    border-radius: var(--post-image-radius);
+    line-height: 0;
+}
+
+/**
+ * Képre kattintható link fókusza.
+ */
+.entry-content a:has(> img):focus-visible,
+.post-content a:has(> img):focus-visible,
+.article-content a:has(> img):focus-visible {
+    outline: 3px solid rgba(233, 185, 73, 0.62);
+    outline-offset: 4px;
+}
+
+/**
+ * A linkelt képnél a külső link kezeli a levágást,
+ * ezért maga a kép maradhat keret nélkül.
+ */
+.entry-content a:has(> img) > img,
+.post-content a:has(> img) > img,
+.article-content a:has(> img) > img {
+    display: block;
+}
+
+/**
+ * Klasszikus WordPress képaláírás.
+ *
+ * A <figure> nem kap fix szélességet: a Classic Editor inline
+ * style width értékét a WordPress adja az adott médiamérethez.
+ */
+.entry-content .wp-caption,
+.post-content .wp-caption,
+.article-content .wp-caption {
+    box-sizing: border-box;
+    max-width: 100% !important;
+    overflow: hidden;
+    border: 1px solid var(--post-image-border);
+    border-radius: var(--post-image-radius);
+    background: var(--post-image-surface);
+    box-shadow: var(--shadow-soft);
+}
+
+/**
+ * Captionön belül a külső figure viszi a keretet és a shadow-t,
+ * ezért a kép nem kaphat még egy duplázott keretet.
+ */
+.entry-content .wp-caption img,
+.post-content .wp-caption img,
+.article-content .wp-caption img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+/**
+ * Képaláírás: elkülönülő szerkesztőségi meta-cédula.
+ */
+.entry-content .wp-caption-text,
+.post-content .wp-caption-text,
+.article-content .wp-caption-text {
+    position: relative;
+    margin: 0;
+    padding: 0.78rem 1rem 0.86rem 2.2rem;
+    color: var(--post-caption-ink);
+    border-top: 1px solid rgba(111, 143, 114, 0.18);
+    background:
+        linear-gradient(
+            112deg,
+            rgba(255, 255, 255, 0.56),
+            rgba(229, 238, 211, 0.38)
+        );
+    font-size: 0.72rem;
+    font-style: normal;
+    font-weight: 750;
+    letter-spacing: 0.052em;
+    line-height: 1.5;
+    text-transform: uppercase;
+}
+
+.entry-content .wp-caption-text::before,
+.post-content .wp-caption-text::before,
+.article-content .wp-caption-text::before {
+    position: absolute;
+    top: 1.08rem;
+    left: 1rem;
+    width: 0.48rem;
+    height: 0.48rem;
+    border: 1px solid rgba(71, 109, 68, 0.48);
+    border-radius: 50%;
+    background: rgba(130, 164, 103, 0.48);
+    box-shadow:
+        0 0 0 0.18rem rgba(215, 224, 184, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.56);
+    content: "";
+}
+
+
+/* ================================================================
+   ÁRVA / BEKEZDÉSBE ILLESZTETT KÉPEK
+   ================================================================ */
+
+/**
+ * Párbeszéd nélküli, önálló képet tartalmazó bekezdés.
+ *
+ * Példa:
+ * <p><img class="alignnone wp-image-14" ...></p>
+ *
+ * A :has() miatt csak a képet tartalmazó bekezdést érjük el;
+ * a normál szöveges p-ket nem módosítjuk.
+ */
+.entry-content p:has(> img:only-child),
+.entry-content p:has(> a:only-child > img),
+.post-content p:has(> img:only-child),
+.post-content p:has(> a:only-child > img),
+.article-content p:has(> img:only-child),
+.article-content p:has(> a:only-child > img) {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    line-height: 0;
+}
+
+/**
+ * Állóképként beszúrt, nem floatolt / alignnone kép.
+ *
+ * width: auto azért kell, mert a Classic Editor a kép eredeti
+ * vagy kiválasztott méretének megfelelő width attribútumot ad.
+ * A max-width védi a keskeny kijelzőt.
+ */
+.entry-content img.alignnone,
+.entry-content img:not(.alignleft):not(.alignright):not(.aligncenter),
+.post-content img.alignnone,
+.post-content img:not(.alignleft):not(.alignright):not(.aligncenter),
+.article-content img.alignnone,
+.article-content img:not(.alignleft):not(.alignright):not(.aligncenter) {
+    display: block;
+    width: auto;
+    margin-top: 0.4rem;
+    margin-bottom: 0.4rem;
+}
+
+/**
+ * Klasszikus balra/jobbra úsztatás:
+ * a szöveg természetesen körbefuthatja a képet.
+ */
+.entry-content .alignleft,
+.post-content .alignleft,
+.article-content .alignleft {
+    float: left;
+    margin: 0.35rem 1.45rem 1rem 0;
+}
+
+.entry-content .alignright,
+.post-content .alignright,
+.article-content .alignright {
+    float: right;
+    margin: 0.35rem 0 1rem 1.45rem;
+}
+
+/**
+ * Középre igazított kép vagy caption.
+ */
+.entry-content .aligncenter,
+.post-content .aligncenter,
+.article-content .aligncenter {
+    display: block;
+    float: none;
+    margin: 1.5rem auto;
+}
+
+/**
+ * Ha a Classic Editor közvetlenül a <p>-re teszi az align class-t,
+ * az igazítás ugyanúgy működjön.
+ */
+.entry-content p.alignleft,
+.entry-content p.alignright,
+.entry-content p.aligncenter,
+.post-content p.alignleft,
+.post-content p.alignright,
+.post-content p.aligncenter,
+.article-content p.alignleft,
+.article-content p.alignright,
+.article-content p.aligncenter {
+    line-height: 0;
+}
+
+
+/* ================================================================
+   HOVER – CSAK EGÉRREL HASZNÁLHATÓ ESZKÖZÖKÖN
+   ================================================================ */
+
+@media (hover: hover) {
+    .entry-content img[src]:hover,
+    .post-content img[src]:hover,
+    .article-content img[src]:hover {
+        filter: saturate(1.035) contrast(1.015);
+        box-shadow: var(--shadow-raised);
+    }
+
+    .entry-content a:has(> img):hover > img,
+    .post-content a:has(> img):hover > img,
+    .article-content a:has(> img):hover > img {
+        transform: scale(1.018);
+    }
+}
+
+
+/* ================================================================
+   MOBIL
+   ================================================================ */
+
+@media (max-width: 640px) {
+    /**
+     * Mobilon minden balra/jobbra úsztatott Classic Editor kép
+     * teljes blokká válik, hogy ne szűkítse be a köré futó szöveget.
+     */
+    .entry-content .alignleft,
+    .entry-content .alignright,
+    .post-content .alignleft,
+    .post-content .alignright,
+    .article-content .alignleft,
+    .article-content .alignright {
+        float: none;
+        max-width: 100% !important;
+        margin: 1.25rem auto;
+    }
+
+    .entry-content .wp-caption.alignleft,
+    .entry-content .wp-caption.alignright,
+    .post-content .wp-caption.alignleft,
+    .post-content .wp-caption.alignright,
+    .article-content .wp-caption.alignleft,
+    .article-content .wp-caption.alignright {
+        width: 100% !important;
+    }
+
+    .entry-content .wp-caption-text,
+    .post-content .wp-caption-text,
+    .article-content .wp-caption-text {
+        padding: 0.7rem 0.85rem 0.76rem 2rem;
+        font-size: 0.67rem;
+        letter-spacing: 0.042em;
+    }
+
+    .entry-content .wp-caption-text::before,
+    .post-content .wp-caption-text::before,
+    .article-content .wp-caption-text::before {
+        left: 0.82rem;
+    }
+}
+
+/* ================================================================
+   VÉSZBIZTOS CLASSIC EDITOR KÉP DESIGN
+   ================================================================ */
+
+/**
+ * Minden WordPress Media Library-ból beszúrt, Classic Editoros kép.
+ *
+ * Példa:
+ * <img class="alignnone wp-image-14" ...>
+ *
+ * A .wp-image-* class miatt nem érinti a fejléc logo.png fájlt,
+ * widgetek esetleges képeit vagy külső szolgáltatások elemeit.
+ */
+img[class*="wp-image-"] {
+    display: block !important;
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+    height: auto !important;
+    border: 1px solid rgba(255, 255, 255, 0.78) !important;
+    border-radius: 1.15rem !important;
+    box-shadow:
+        0 0.3rem 0.9rem rgba(58, 77, 50, 0.08),
+        0 1.15rem 2.8rem rgba(102, 78, 40, 0.09) !important;
+}
+
+/**
+ * Caption esetén a figure hordozza a külső keretet,
+ * az img pedig annak felső sarkaihoz igazodik.
+ */
+figure.wp-caption {
+    box-sizing: border-box !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(255, 255, 255, 0.78) !important;
+    border-radius: 1.15rem !important;
+    background: rgba(255, 255, 255, 0.34) !important;
+    box-shadow:
+        0 0.3rem 0.9rem rgba(58, 77, 50, 0.08),
+        0 1.15rem 2.8rem rgba(102, 78, 40, 0.09) !important;
+}
+
+figure.wp-caption > img[class*="wp-image-"] {
+    width: 100% !important;
+    margin: 0 !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+/* A Classic Editor képaláírása. */
+figcaption.wp-caption-text {
+    position: relative !important;
+    margin: 0 !important;
+    padding: 0.78rem 1rem 0.86rem 2.2rem !important;
+    color: #566652 !important;
+    border-top: 1px solid rgba(111, 143, 114, 0.18) !important;
+    background: linear-gradient(
+        112deg,
+        rgba(255, 255, 255, 0.62),
+        rgba(229, 238, 211, 0.42)
+    ) !important;
+    font-size: 0.72rem !important;
+    font-style: normal !important;
+    font-weight: 750 !important;
+    letter-spacing: 0.052em !important;
+    line-height: 1.5 !important;
+    text-transform: uppercase !important;
+}
+
+figcaption.wp-caption-text::before {
+    position: absolute !important;
+    top: 1.08rem !important;
+    left: 1rem !important;
+    width: 0.48rem !important;
+    height: 0.48rem !important;
+    border: 1px solid rgba(71, 109, 68, 0.48) !important;
+    border-radius: 50% !important;
+    background: rgba(130, 164, 103, 0.48) !important;
+    box-shadow:
+        0 0 0 0.18rem rgba(215, 224, 184, 0.34),
+        inset 0 1px 0 rgba(255, 255, 255, 0.56) !important;
+    content: "" !important;
+}
+
+/**
+ * Képet egyedül tartalmazó <p>.
+ *
+ * A :has() parent-selectorral csak a médiás bekezdés kap térközt,
+ * nem az összes szövegbekezdés.
+ */
+p:has(> img[class*="wp-image-"]:only-child),
+p:has(> a:only-child > img[class*="wp-image-"]) {
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    line-height: 0 !important;
+}
+
+/* Classic Editor igazítási osztályok. */
+img.alignleft,
+figure.alignleft {
+    float: left !important;
+    margin: 0.35rem 1.45rem 1rem 0 !important;
+}
+
+img.alignright,
+figure.alignright {
+    float: right !important;
+    margin: 0.35rem 0 1rem 1.45rem !important;
+}
+
+img.aligncenter,
+figure.aligncenter {
+    display: block !important;
+    float: none !important;
+    margin: 1.5rem auto !important;
+}
+
+img.alignnone,
+img:not(.alignleft):not(.alignright):not(.aligncenter) {
+    margin-top: 0.4rem !important;
+    margin-bottom: 0.4rem !important;
+}
+
+/* Mobilon nincs úsztatott kép. */
+@media (max-width: 640px) {
+    img.alignleft,
+    img.alignright,
+    figure.alignleft,
+    figure.alignright {
+        float: none !important;
+        max-width: 100% !important;
+        margin: 1.25rem auto !important;
+    }
+
+    figure.wp-caption.alignleft,
+    figure.wp-caption.alignright {
+        width: 100% !important;
+    }
+}
+
+
+/* ================================================================
+   LÁBLÉC – üvegpapír, a header vizuális rendszerében
+   ================================================================ */
+.site-footer {
+    position: relative;
+    z-index: 1;
+}
+
+.site-footer__inner {
+    overflow: hidden;
+    padding: clamp(1.1rem, 2.5vw, 1.6rem);
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    border-radius: 1.5rem;
+    background:
+        linear-gradient(
+            112deg,
+            rgba(255, 255, 255, 0.52) 0%,
+            rgba(232, 241, 216, 0.36) 55%,
+            rgba(247, 228, 194, 0.30) 100%
+        );
+    box-shadow:
+        0 0.45rem 1.25rem rgba(52, 74, 49, 0.07),
+        0 1.4rem 3.4rem rgba(95, 72, 37, 0.09);
+}
+
+.site-footer__top,
+.site-footer__bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.site-footer__top {
+    padding-bottom: 1.15rem;
+    border-bottom: 1px solid rgba(104, 129, 93, 0.18);
+}
+
+.site-footer__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+    color: var(--forest);
+    text-decoration: none;
+}
+
+.site-footer__brand strong,
+.site-footer__brand small {
+    display: block;
+}
+
+.site-footer__brand strong {
+    font-family: Fraunces, serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.site-footer__brand small {
+    margin-top: 0.18rem;
+    color: #526550;
+    font-size: 0.75rem;
+    line-height: 1.35;
+}
+
+.site-footer__mark {
+    display: grid;
+    width: 2.65rem;
+    aspect-ratio: 1;
+    place-items: center;
+    flex: 0 0 auto;
+    border: 1px solid rgba(93, 125, 91, 0.24);
+    border-radius: 0.85rem;
+    background: rgba(255, 255, 255, 0.52);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.82),
+        0 0.25rem 0.65rem rgba(64, 90, 55, 0.09);
+    color: var(--terracotta);
+    font-size: 1rem;
+}
+
+.site-footer__top-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2.5rem;
+    padding: 0.55rem 0.85rem;
+    border: 1px solid rgba(104, 137, 96, 0.22);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.38);
+    color: var(--forest);
+    font-size: 0.8rem;
+    font-weight: 750;
+    text-decoration: none;
+    transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.site-footer__top-link:hover,
+.site-footer__top-link:focus-visible {
+    transform: translateY(-0.12rem);
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 0.35rem 0.85rem rgba(58, 77, 50, 0.12);
+    outline: none;
+}
+
+.site-footer__top-link:focus-visible {
+    outline: 3px solid rgba(233, 185, 73, 0.56);
+    outline-offset: 3px;
+}
+
+.site-footer__bottom {
+    padding-top: 1rem;
+    color: #526550;
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+.site-footer__bottom p {
+    margin: 0;
+}
+
+.site-footer__privacy a {
+    color: var(--forest);
+    font-weight: 700;
+    text-decoration-color: rgba(49, 91, 62, 0.38);
+    text-underline-offset: 0.18em;
+}
+
+@media (max-width: 640px) {
+    .site-footer {
+        margin-top: 3rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .site-footer__inner {
+        padding: 1rem;
+        border-radius: 1.25rem;
+    }
+
+    .site-footer__top,
+    .site-footer__bottom {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .site-footer__top {
+        padding-bottom: 1rem;
+    }
+
+    .site-footer__top-link {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+
+.site-footer__nav {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(104, 129, 93, 0.18);
+}
+
+.site-footer__menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.site-footer__menu a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.35rem;
+    padding: 0.5rem 0.8rem;
+    border: 1px solid rgba(104, 137, 96, 0.20);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.30);
+    color: var(--forest);
+    font-size: 0.8rem;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+    transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.site-footer__menu a:hover,
+.site-footer__menu a:focus-visible {
+    transform: translateY(-0.12rem);
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 0.3rem 0.8rem rgba(58, 77, 50, 0.10);
+    outline: none;
+}
+
+.site-footer__menu a:focus-visible {
+    outline: 3px solid rgba(233, 185, 73, 0.56);
+    outline-offset: 3px;
+}
+
+.site-footer__menu .current-menu-item a,
+.site-footer__menu .current-menu-ancestor a {
+    border-color: rgba(49, 91, 62, 0.34);
+    background: rgba(49, 91, 62, 0.12);
+}
+
+@media (max-width: 640px) {
+    .site-footer__menu {
+        gap: 0.45rem;
+    }
+
+    .site-footer__menu li {
+        flex: 1 1 auto;
+    }
+
+    .site-footer__menu a {
+        width: 100%;
+        justify-content: center;
+    }
+}
