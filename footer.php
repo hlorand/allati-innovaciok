@@ -1,4 +1,6 @@
-    </main>
+<?php include "temakorok.php"; ?>
+
+</main>
 
 <!-- Lábléc: üvegpapír stílusban, a fejléccel egységesen. -->
 <footer class="site-footer mt-12 pb-8 pt-4 sm:mt-16 sm:pb-12">

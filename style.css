@@ -1,11 +1,9 @@
 /*
 Theme Name: Állati innovációk
 Author: Loránd Horváth
-Description: Egyedi classic WordPress téma az Állati innovációk ismeretterjesztő bloghoz.
-Version: 0.1.0
+Description: Egyedi classic WordPress téma az Állati innovációk ismeretterjesztő bloghoz. Ha egy bejegyzéshez a "nocover" tag-et adod, akkor a poszt oldalon (single.php) nem lesz felül cover image, de ez a kiemelt két mindenhol máshol megjelenik. Ezt használja ogimage-nek is megosztáskor. Ajánlott pluginek: classic-editor, simple-lightbox, wpdiscuz, wpvivid-backuprestore
+Version: 0.1.5
 Requires at least: 7.0
 Requires PHP: 8.1
 Text Domain: allati-innovaciok
 */
-
-/* Ide csak később kerülnek egyedi, nem-Tailwind CSS szabályok. */

@@ -280,7 +280,7 @@
             image: "6-aszfalt csapda.png",
             url: "/category/dunavirag/",
             title: "Dunavirágok",
-            enabled: false
+            enabled: true
         },
         {
             image: "7-dunavirag-tomeg.png",
@@ -301,9 +301,9 @@
             enabled: false
         },
         {
-            image: "kerdojel.png",
+            image: "logo-small.png",
             url: "/category/rovarvilag/",
-            title: "Meglepetés",
+            title: "Szkarabeusz bogarak",
             enabled: false
         }
     ];

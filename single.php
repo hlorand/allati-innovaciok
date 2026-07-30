@@ -35,7 +35,7 @@ get_header();
                 </p>
 
                 <!-- Kiemelt kép, ha van beállítva a bejegyzéshez. -->
-                <?php if ( has_post_thumbnail() ) : ?>
+                <?php if ( has_post_thumbnail() && ! has_tag( 'nocover' ) ) : ?>
                     <figure class="mt-7 overflow-hidden rounded-3xl">
                         <?php
                         the_post_thumbnail(

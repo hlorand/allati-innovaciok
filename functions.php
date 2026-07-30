@@ -271,3 +271,31 @@ add_filter(
     'allati_innovaciok_hide_editor_screen_options'
 );
 
+
+/**
+ * A Legutóbbi hozzászólások blokk félreérthető szövegének javítása.
+ *
+ * Régi forma:
+ * „Cikk címe – szerzője Valaki”
+ *
+ * Új forma:
+ * „Valaki hozzászólt ehhez: Cikk címe”
+ */
+function allati_innovaciok_latest_comments_text(
+    $translation,
+    $text,
+    $domain
+) {
+    // Csak a WordPress core eredeti szövegét cseréljük.
+    if ( '%1$s on %2$s' !== $text ) {
+        return $translation;
+    }
+
+    // Ne érintse az adminfelületet.
+    if ( is_admin() ) {
+        return $translation;
+    }
+
+    return '%1$s hozzászólt ehhez: %2$s';
+}
+add_filter( 'gettext', 'allati_innovaciok_latest_comments_text', 10, 3 );

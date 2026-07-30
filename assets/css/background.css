@@ -728,7 +728,7 @@ body.site-background > .nature-background {
 }
 
 /* A weboldal minden tényleges tartalmi gyereke: a háttér előtt. */
-body.site-background > *:not(.nature-background) {
+body.site-background > *:not(.nature-background):not(#slb_viewer_wrap) {
     position: relative;
     z-index: 1;
 }

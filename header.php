@@ -86,7 +86,7 @@
                 </span>
 
                 <span class="site-brand__copy">
-                    <span data-aos="fade-right" class="site-brand__eyebrow">Ökológia · Etológia · Ismeretterjesztés</span>
+                    <span data-aos="fade-right" class="site-brand__eyebrow">Zoológia · Ökológia · Etológia · Ismeretterjesztés</span>
                     <span data-aos="fade-right" class="site-brand__title">
                         <?php bloginfo( 'name' ); ?>
                     </span>
