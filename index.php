@@ -16,6 +16,12 @@ get_header();
         <?php while ( have_posts() ) : ?>
             <?php the_post(); ?>
 
+			<?php
+              get_template_part( 'template-parts/card', 'category' );
+            ?>
+	<div style="margin-bottom: 20px; width:100%;"></div>
+	
+			<!--
             <article <?php post_class( 'mb-8 rounded-3xl border border-sage/60 bg-white/80 p-6 shadow-sm' ); ?>>
                 <h2 class="font-display text-2xl font-bold text-forest">
                     <a
@@ -26,7 +32,7 @@ get_header();
                     </a>
                 </h2>
 
-                <!-- Rövid kivonat a bejegyzésből. -->
+
                 <div class="mt-3 text-ink">
                     <?php the_excerpt(); ?>
                 </div>
@@ -38,6 +44,7 @@ get_header();
                     Tovább olvasom
                 </a>
             </article>
+			-->
         <?php endwhile; ?>
 
     <?php else : ?>

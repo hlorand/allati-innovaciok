@@ -387,7 +387,7 @@ get_header();
         <!-- Később opcionálisan a teljes blog-archívumra mutathat. -->
         <a
             class="inline-flex w-fit rounded-full border border-forest px-4 py-2 text-sm font-bold text-forest transition hover:bg-forest hover:text-white focus:outline-none focus:ring-4 focus:ring-flower/40"
-            href="<?php echo esc_url( get_permalink( get_option( 'page_for_posts' ) ) ); ?>"
+            href="<?php echo "https://allati.innovaciok.hu/" . date("Y") . "/" ?>"
         >
             Összes cikk
         </a>
