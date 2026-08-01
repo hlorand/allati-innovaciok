@@ -53,6 +53,12 @@
             }
         };
     </script>
+	
+	<link rel="icon" type="image/png" href="<?php echo esc_url( get_theme_file_uri( 'assets/images/favicon/favicon-96x96.png' ) ); ?>" sizes="96x96" />
+	<link rel="icon" type="image/svg+xml" href="<?php echo esc_url( get_theme_file_uri( 'assets/images/favicon/favicon.svg' ) ); ?>" />
+	<link rel="shortcut icon" href="<?php echo esc_url( get_theme_file_uri( 'assets/images/favicon/favicon.ico' ) ); ?>" />
+	<link rel="apple-touch-icon" sizes="180x180" href="<?php echo esc_url( get_theme_file_uri( 'assets/favicon/images/apple-touch-icon.png' ) ); ?>" />
+	<link rel="manifest" href="<?php echo esc_url( get_theme_file_uri( 'assets/images/favicon/site.webmanifest' ) ); ?>" />
 
     <!-- WordPress és pluginok CSS/JS beszúrási pontja. -->
     <?php wp_head(); ?>
@@ -95,6 +101,68 @@
                     </span>
                 </span>
             </a>
+			
+			<!-- Közösségi média linkek. Asztali nézetben jobb felül, kisebb kijelzőn a brand alá kerülnek. -->
+			<nav class="site-social" aria-label="Közösségi média">
+				<a
+					class="site-social__link"
+					href="https://www.youtube.com/@kriskagyorgy"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Állati Innovációk a YouTube-on"
+				>
+					<img
+						src="<?php echo esc_url( get_theme_file_uri( 'assets/images/icons/youtube.png' ) ); ?>"
+						alt=""
+						width="28"
+						height="28"
+					>
+				</a>
+				<a
+					class="site-social__link"
+					href="https://www.facebook.com/profile.php?id=61592487846119"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Állati Innovációk a Facebookon"
+				>
+					<img
+						src="<?php echo esc_url( get_theme_file_uri( 'assets/images/icons/facebook.png' ) ); ?>"
+						alt=""
+						width="28"
+						height="28"
+					>
+				</a>
+
+				<a
+					class="site-social__link"
+					href="https://www.instagram.com/allati.innovaciok"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Állati Innovációk az Instagramon"
+				>
+					<img
+						src="<?php echo esc_url( get_theme_file_uri( 'assets/images/icons/instagram.png' ) ); ?>"
+						alt=""
+						width="28"
+						height="28"
+					>
+				</a>
+
+				<a
+					class="site-social__link"
+					href="https://www.tiktok.com/@allati.innovaciok"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Állati Innovációk a TikTokon"
+				>
+					<img
+						src="<?php echo esc_url( get_theme_file_uri( 'assets/images/icons/tiktok.png' ) ); ?>"
+						alt=""
+						width="28"
+						height="28"
+					>
+				</a>
+			</nav>
 
             <!-- Teljes szélességű navigációs felület. -->
             <nav

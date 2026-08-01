@@ -453,8 +453,9 @@ get_header();
 
 <?php
 /**
- * Kategóriák véletlen sorrendben.
- * Minden kategóriához a 4 legfrissebb publikált bejegyzés jelenik meg.
+ * Kategóriák sorrendje:
+ * amelyik kategóriában a legutóbb publikált cikk van,
+ * az jelenjen meg legfelül.
  */
 $categories = get_categories(
     array(
@@ -462,7 +463,35 @@ $categories = get_categories(
     )
 );
 
-shuffle( $categories );
+/*
+ * Minden kategóriához lekérjük az egyetlen legutóbb publikált cikket,
+ * és eltároljuk annak publikálási dátumát.
+ */
+foreach ( $categories as $category ) {
+    $latest_post_in_category = get_posts(
+        array(
+            'post_type'      => 'post',
+            'post_status'    => 'publish',
+            'posts_per_page' => 1,
+            'category'       => $category->term_id,
+            'orderby'        => 'date',
+            'order'          => 'DESC',
+        )
+    );
+
+    $category->latest_post_date = ! empty( $latest_post_in_category )
+        ? strtotime( $latest_post_in_category[0]->post_date_gmt )
+        : 0;
+}
+
+/* Legújabb publikálási dátumú kategória legyen elöl. */
+usort(
+    $categories,
+    function ( $first_category, $second_category ) {
+        return $second_category->latest_post_date
+            <=> $first_category->latest_post_date;
+    }
+);
 ?>
 
 <?php if ( ! empty( $categories ) ) : ?>
@@ -488,6 +517,8 @@ shuffle( $categories );
                     'posts_per_page'      => 4,
                     'ignore_sticky_posts' => true,
                     'cat'                 => $category->term_id,
+					'orderby'             => 'date',
+        			'order'               => 'DESC',
                 )
             );
 

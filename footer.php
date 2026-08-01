@@ -26,13 +26,70 @@
 
             </a>
 
-            <ul>
-                    <li><a href="https://www.facebook.com/profile.php?id=100051141878890" target="_blank" rel="noopener noreferrer">▶ Facebook</a></li>
-                    <li><a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">▶ Instagram</a></li>
-                    <li><a href="https://www.youtube.com/@kriskagyorgy/videos" target="_blank" rel="noopener noreferrer">▶ YouTube</a></li>
-                </ul>
+			<!-- Közösségi média linkek a láblécben. -->
+			<nav class="site-social site-social--footer" aria-label="Közösségi média">
+				<a
+					class="site-social__link"
+					href="https://www.youtube.com/@kriskagyorgy"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Állati Innovációk a YouTube-on"
+				>
+					<img
+						src="<?php echo esc_url( get_theme_file_uri( 'assets/images/icons/youtube.png' ) ); ?>"
+						alt=""
+						width="28"
+						height="28"
+					>
+				</a>
+				
+				<a
+					class="site-social__link"
+					href="https://www.facebook.com/profile.php?id=61592487846119"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Állati Innovációk a Facebookon"
+				>
+					<img
+						src="<?php echo esc_url( get_theme_file_uri( 'assets/images/icons/facebook.png' ) ); ?>"
+						alt=""
+						width="28"
+						height="28"
+					>
+				</a>
 
-            <a class="site-footer__top-link" href="#top">
+				<a
+					class="site-social__link"
+					href="https://www.instagram.com/allati.innovaciok"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Állati Innovációk az Instagramon"
+				>
+					<img
+						src="<?php echo esc_url( get_theme_file_uri( 'assets/images/icons/instagram.png' ) ); ?>"
+						alt=""
+						width="28"
+						height="28"
+					>
+				</a>
+
+				<a
+					class="site-social__link"
+					href="https://www.tiktok.com/@allati.innovaciok"
+					target="_blank"
+					rel="noopener noreferrer"
+					aria-label="Állati Innovációk a TikTokon"
+				>
+					<img
+						src="<?php echo esc_url( get_theme_file_uri( 'assets/images/icons/tiktok.png' ) ); ?>"
+						alt=""
+						width="28"
+						height="28"
+					>
+				</a>
+			</nav>
+
+            <a class="site-footer__top-link" href="#top" style="margin-top:50px;">
                 Vissza az elejére <span aria-hidden="true">↑</span>
             </a>
         </div>
