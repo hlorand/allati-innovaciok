@@ -238,7 +238,7 @@
             image: "1-bogoly-zebrab.png",
             url: "/category/boglyok/",
             title: "Böglyök",
-            enabled: false
+            enabled: true
         },
         {
             image: "10-legylarvak.png",
@@ -274,7 +274,7 @@
             image: "5-viz-csapda.png",
             url: "/category/vizkereso-rovarok/",
             title: "Vízkereső rovarok",
-            enabled: false
+            enabled: true
         },
         {
             image: "6-aszfalt csapda.png",
@@ -286,7 +286,7 @@
             image: "7-dunavirag-tomeg.png",
             url: "/category/tiszavirag/",
             title: "Tiszavirágok",
-            enabled: false
+            enabled: true
         },
         {
             image: "8 barlangi rovar.png",

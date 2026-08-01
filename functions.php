@@ -153,6 +153,7 @@ function allati_innovaciok_editor_admin_menu() {
         'upload.php',        // Média
         'edit.php?post_type=page', // Oldalak
         'edit-comments.php', // Hozzászólások
+		'allati-statisztika',          // Statisztika
     );
 
     foreach ( $menu as $menu_key => $menu_item ) {
@@ -299,3 +300,51 @@ function allati_innovaciok_latest_comments_text(
     return '%1$s hozzászólt ehhez: %2$s';
 }
 add_filter( 'gettext', 'allati_innovaciok_latest_comments_text', 10, 3 );
+
+
+/**
+ * „Statisztika” menüpont hozzáadása a WordPress adminmenühöz.
+ */
+function allati_innovaciok_add_statistics_menu() {
+    add_menu_page(
+        'Statisztika',                       // Böngészőfül címe.
+        'Statisztika',                       // Bal oldali menü felirata.
+        'edit_posts',                        // Adminok és szerkesztők láthatják.
+        'allati-statisztika',                // Saját, egyedi menüazonosító.
+        'allati_innovaciok_statistics_redirect',
+        'dashicons-chart-bar',               // WordPress ikon.
+        25                                  // Pozíció a menüben.
+    );
+}
+add_action( 'admin_menu', 'allati_innovaciok_add_statistics_menu', 10000 );
+
+
+/**
+ * A saját menüpont átirányít a Koko Analytics oldalára.
+ */
+function allati_innovaciok_statistics_redirect() {
+    wp_safe_redirect(
+        admin_url( 'index.php?page=koko-analytics' )
+    );
+    exit;
+}
+
+/**
+ * Koko Analytics megtekintési jogosultság szerkesztőknek.
+ */
+function allati_innovaciok_allow_editors_to_view_koko_analytics() {
+    $editor_role = get_role( 'editor' );
+
+    if ( $editor_role ) {
+        $editor_role->add_cap( 'view_koko_analytics' );
+    }
+}
+add_action(
+    'after_switch_theme',
+    'allati_innovaciok_allow_editors_to_view_koko_analytics'
+);
+
+/* Azonnal lefuttatja egyszer, a jelenlegi aktív témán is. */
+allati_innovaciok_allow_editors_to_view_koko_analytics();
+
+

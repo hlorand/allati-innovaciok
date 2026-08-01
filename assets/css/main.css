@@ -16,6 +16,9 @@ iframe{
     overflow: scroll;
 }
 
+html {
+  scroll-behavior: smooth;
+}
 
 /* ================================================================
    VÁLTOZÓK

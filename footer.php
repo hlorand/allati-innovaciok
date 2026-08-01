@@ -38,7 +38,7 @@
         </div>
 
         <p style="text-align: center; margin: 0 auto; margin-top: 20px;">
-            Horváth Gábor &sdot; Kriska György &sdot; Kriska Ferenc &sdot; Horváth Loránd
+			<a href="https://arago.elte.hu/" target="_blank">Horváth Gábor</a> &sdot; <a href="https://kriska.web.elte.hu/" target="_blank">Kriska György</a> &sdot; <a href="https://www.youtube.com/@kriskaferenc" target="_blank">Kriska Ferenc</a> &sdot; <a href="https://hlorand.hu" target="_blank">Horváth Loránd</a>
         </p>
 
         <?php if ( has_nav_menu( 'footer_menu' ) ) : ?>
