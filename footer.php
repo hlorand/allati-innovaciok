@@ -97,6 +97,10 @@
         <p style="text-align: center; margin: 0 auto; margin-top: 20px;">
 			<a href="https://arago.elte.hu/" target="_blank">Horváth Gábor</a> &sdot; <a href="https://kriska.web.elte.hu/" target="_blank">Kriska György</a> &sdot; <a href="https://www.youtube.com/@kriskaferenc" target="_blank">Kriska Ferenc</a> &sdot; <a href="https://hlorand.hu" target="_blank">Horváth Loránd</a>
         </p>
+		
+		<p>
+			<img style="margin: 0 auto; width: clamp(50%, 400px, 100%); border-radius: 12px;" src="<?php echo esc_url( get_template_directory_uri() . '/assets/images/nkfi-logo/nkfi logo horizontal.jpg' ); ?>">
+		</p>
 
         <?php if ( has_nav_menu( 'footer_menu' ) ) : ?>
             <nav class="site-footer__nav" aria-label="Lábléc navigáció">

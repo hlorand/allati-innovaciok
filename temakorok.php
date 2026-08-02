@@ -276,7 +276,7 @@
             title: "Vízkereső rovarok",
             enabled: true
         },
-        {
+    /*    {
             image: "6-aszfalt csapda.png",
             url: "/category/dunavirag/",
             title: "Dunavirágok",
@@ -287,7 +287,7 @@
             url: "/category/tiszavirag/",
             title: "Tiszavirágok",
             enabled: true
-        },
+        },   */
         {
             image: "8 barlangi rovar.png",
             url: "/category/barlangi-elovilag/",
@@ -305,6 +305,18 @@
             url: "/category/rovarvilag/",
             title: "Szkarabeusz bogarak",
             enabled: false
+        },
+		{
+            image: "filmkeszites-small.png",
+            url: "/category/filmforgatas/",
+            title: "Filmforgatás",
+            enabled: true
+        },
+		{
+            image: "hirek-small.png",
+            url: "/category/hirek/",
+            title: "Hírek",
+            enabled: true
         }
     ];
 

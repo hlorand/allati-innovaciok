@@ -2,19 +2,19 @@
 /**
  * Statikus oldal sablon.
  *
- * Ezt használja a WordPress a hagyományos Oldal típusú tartalmakhoz,
- * például a Rólunk, Kapcsolat és Impresszum oldalhoz.
- *
- * Bal oldalon az oldal tartalma, jobb oldalon ugyanaz a sidebar,
- * mint az egyedi bejegyzéseknél.
+ * Ha az oldal rendelkezik a "nosidebar" címkével, a sidebar nem jelenik meg,
+ * és a tartalom teljes szélességben jelenik meg.
  */
 
 get_header();
+
+/* Az aktuális oldal rendelkezik-e nosidebar címkével? */
+$has_no_sidebar = has_tag( 'nosidebar', get_queried_object_id() );
 ?>
 
-<div class="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px]">
+<div class="grid grid-cols-1 gap-10<?php echo $has_no_sidebar ? '' : ' lg:grid-cols-[minmax(0,1fr)_320px]'; ?>">
 
-    <!-- Bal oldal: az aktuális statikus oldal tartalma. -->
+    <!-- Az aktuális statikus oldal tartalma. -->
     <section>
         <?php while ( have_posts() ) : ?>
             <?php the_post(); ?>
@@ -26,7 +26,7 @@ get_header();
                     <?php the_title(); ?>
                 </h1>
 
-                <!-- Classic Editorból érkező oldal-tartalom, prose tipográfiával. -->
+                <!-- Classic Editorból érkező oldal-tartalom. -->
                 <div class="prose prose-lg mt-8 max-w-none prose-headings:font-display prose-headings:text-forest prose-a:text-coral prose-a:font-bold prose-a:no-underline hover:prose-a:text-earth hover:prose-a:underline prose-strong:text-forest prose-blockquote:border-l-moss prose-blockquote:text-earth prose-figcaption:text-earth">
                     <?php the_content(); ?>
                 </div>
@@ -35,8 +35,11 @@ get_header();
         <?php endwhile; ?>
     </section>
 
-    <!-- Jobb oldal: adminból kezelhető widgetek. -->
-    <?php get_sidebar(); ?>
+    <!-- Csak nosidebar címke nélkül jelenjen meg. -->
+    <?php if ( ! $has_no_sidebar ) : ?>
+        <?php get_sidebar(); ?>
+    <?php endif; ?>
+
 </div>
 
 <?php get_footer(); ?>

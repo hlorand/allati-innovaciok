@@ -52,6 +52,14 @@ function allati_innovaciok_setup() {
 add_action( 'after_setup_theme', 'allati_innovaciok_setup' );
 
 /**
+ * Bejegyzéscímkék engedélyezése statikus oldalakhoz is.
+ */
+function allati_innovaciok_enable_page_tags() {
+    register_taxonomy_for_object_type( 'post_tag', 'page' );
+}
+add_action( 'init', 'allati_innovaciok_enable_page_tags' );
+
+/**
  * Widget-területek regisztrálása.
  *
  * Ezt a területet a kategória- és bejegyzésoldalak sidebar.php fájlja
