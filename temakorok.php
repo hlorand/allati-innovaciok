@@ -307,9 +307,9 @@
             enabled: false
         },
 		{
-            image: "filmkeszites-small.png",
-            url: "/category/filmforgatas/",
-            title: "Filmforgatás",
+            image: "fenypolarizacio-small.png",
+            url: "/category/fenypolarizacio/",
+            title: "Fénypolarizáció",
             enabled: true
         },
 		{
