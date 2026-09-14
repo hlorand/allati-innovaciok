@@ -52,7 +52,7 @@ get_header();
             <div class="home-hero__image-frame">
                 <img
                     class="home-hero__image"
-                    src="<?php echo esc_url( get_theme_file_uri( 'assets/images/csapat.jpg' ) ); ?>"
+                    src="<?php echo esc_url( get_theme_file_uri( 'assets/images/csapat-uj.webp' ) ); ?>"
                     alt="Az Állati innovációk film illusztrációja"
                     width="1000"
                     height="1000"

@@ -302,14 +302,20 @@
         },
         {
             image: "logo-small.png",
-            url: "/category/rovarvilag/",
+            url: "/category/szkarabeusz-bogarak/",
             title: "Szkarabeusz bogarak",
-            enabled: false
+            enabled: true
         },
 		{
             image: "fenypolarizacio-small.png",
             url: "/category/fenypolarizacio/",
             title: "Fénypolarizáció",
+            enabled: true
+        },
+		{
+            image: "fenypolarizacio-erzekelese-small.png",
+            url: "/category/fenypolarizacio-erzekelese/",
+            title: "Fénypolarizáció érzékelése",
             enabled: true
         },
 		{
