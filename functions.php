@@ -355,4 +355,10 @@ add_action(
 /* Azonnal lefuttatja egyszer, a jelenlegi aktív témán is. */
 allati_innovaciok_allow_editors_to_view_koko_analytics();
 
-
+/* TinyMCE formázás megőzése beillesztés esetén */
+add_filter('tiny_mce_before_init', function($init) {
+    $init['paste_retain_style_properties'] = 'all';
+    $init['paste_webkit_styles'] = 'all';
+    $init['paste_remove_styles_if_webkit'] = false;
+    return $init;
+});
